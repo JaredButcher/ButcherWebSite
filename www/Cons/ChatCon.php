@@ -29,11 +29,15 @@ class ConClass{
 			if($GLOBALS['VD']['Room']){
 				if($_SERVER['REQUEST_METHOD'] == "POST" ){
 					if(array_key_exists("Id", $_SESSION)){
-						$this->Mod->MakePost(htmlspecialchars($_GET['Id']),htmlspecialchars($_POST["Content"]));
-					} else {
+						if(isset($_POST["Content"])){
+							$this->Mod->MakePost(htmlspecialchars($_GET['Id']),$_POST["Content"]);
+						} else if(isset($_POST["DeletePost"]) && ($GLOBALS['Secrets']['PostDelPower'] <= $_SESSION["Power"] || $GLOBALS['VD']['Room']['Owner'] == $_SESSION['Id'] || $this->Mod->GetPost($_POST["DeletePost"])["owner"] == $_SESSION['Id'])) {
+							$this->Mod->DelPost($_POST["DeletePost"]);
+						}
+					}else {
 						header('Location: /Users/Login/',301);
 						die();
-					}
+					} 
 				}
 				$GLOBALS['VD']['Posts'] = $this->Mod->GetPosts($_GET['Id']);
 			}

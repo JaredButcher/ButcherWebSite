@@ -41,7 +41,7 @@ table, td, th {
 	}
 	?>
 	</table>
-	<input type="button" name="DelUsers" value="Delete Users" onclick="DeleteUsers(); return false;" >
+	<input type="button" name="DelUsers" value="Delete Users" onclick="DeleteUsers(); return false;" />
 </form>
 <script>
 function DeleteUsers(){

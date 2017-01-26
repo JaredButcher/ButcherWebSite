@@ -3,3 +3,7 @@ CREATE TABLE posts (id VARCHAR(32) PRIMARY KEY, ts TIMESTAMP DEFAULT CURRENT_TIM
 CREATE UNIQUE INDEX index ON posts (id);
 CREATE TABLE reports (id VARCHAR(32) PRIMARY KEY, ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, owner INT, content TEXT, room INT, post INT);
 ALTER TABLE rooms ADD feature BOOL DEFAULT 0;
+
+SELECT posts.*, users.username FROM posts LEFT JOIN users ON posts.owner = users.id WHERE posts.id REGEXP '^{$RoomId}-.+$' ORDER BY posts.ts DESC;
+Select rooms.*, users.usrname From rooms LEFT JOIN users ON rooms.owner = users.id Order By id;
+SELECT rooms.*, users.username FROM rooms LEFT JOIN users ON rooms.owner = users.id WHERE rooms.id=?;

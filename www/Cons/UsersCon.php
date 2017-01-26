@@ -191,7 +191,7 @@
 								$this->Mod->EditName($User['id'],$Name);
 								$GLOBALS['VD']['Name'] = $Name;
 							}
-							if($Power != "" && $Power != $User['power']){
+							if($Power != "" && $Power < $_SESSION["Power"] && $User['power'] < $_SESSION["Power"]){
 								$this->Mod->EditPower($User['id'],$Power);
 								$GLOBALS['VD']['Power'] = $Power;
 							}
