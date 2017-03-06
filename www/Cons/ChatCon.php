@@ -14,16 +14,24 @@ class ConClass{
 		$this->ApiCall = true;
 		if(isset($_POST['Search']) && $_POST['Search'] != ""){
 			if(isset($_POST['Count']) && isset($_POST['CountIndex'])){
-				$GLOBALS['VD']['Rooms'] = $this->Mod->GetRoomsSearch($_POST['Search'], $_POST['Count'], $_POST['CountIndex']);
+				$GLOBALS['VD']['Rooms'] = $this->Mod->GetRoomsSearch($_POST['Search'], $_POST['Count'], max($_POST['CountIndex'], 0));
 			} else {
 				$GLOBALS['VD']['Rooms'] = $this->Mod->GetRoomsSearch($_POST['Search'], 10,0);
 			}
 		} else {
 			if(isset($_POST['Count']) && isset($_POST['CountIndex'])){
-				$GLOBALS['VD']['Rooms'] = $this->Mod->GetRooms($_POST['Count'], $_POST['CountIndex']);
+				$GLOBALS['VD']['Rooms'] = $this->Mod->GetRoomsSearch('',$_POST['Count'], max($_POST['CountIndex'],0));
 			} else {
-				$GLOBALS['VD']['Rooms'] = $this->Mod->GetRooms(10, 0);
+				$GLOBALS['VD']['Rooms'] = $this->Mod->GetRoomsSearch('',10, 0);
 			}
+		}
+	}
+	public function GetPosts(){
+		$this->ApiCall = true;
+		if(isset($_POST['Count']) && isset($_POST['CountIndex'])){
+			$GLOBALS['VD']['Posts'] = $this->Mod->GetPosts($_POST['Room'], $_POST['Count'], max($_POST['CountIndex'], 0));
+		} else {
+			$GLOBALS['VD']['Posts'] = $this->Mod->GetPosts($_POST['Room'], 10,0);
 		}
 	}
 	public function MakeRoom(){
@@ -61,7 +69,6 @@ class ConClass{
 						die();
 					} 
 				}
-				$GLOBALS['VD']['Posts'] = $this->Mod->GetPosts($_GET['Id']);
 			}
 		}
 	}

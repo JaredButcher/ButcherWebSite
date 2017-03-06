@@ -10,7 +10,7 @@ function call($Con, $Action){
 		require_once($GLOBALS['Page']);
 	}
 }
-$Cons = array("Home" => ["Index", "Error", "About"], "Chat" => ["Home"], "Users" => ["Login","Register","Account","Logout","UserManagement","AccountAdmin"], "Chat" => ["Home", "MakeRoom", "Room", "GetRooms"]);
+$Cons = array("Home" => ["Index", "Error", "About"], "Chat" => ["Home"], "Users" => ["Login","Register","Account","Logout","UserManagement","AccountAdmin"], "Chat" => ["Home", "MakeRoom", "Room", "GetRooms", "GetPosts"]);
 if(array_key_exists($Con, $Cons)){
 	if(in_array($Action, $Cons[$Con])){
 		call($Con, $Action);
