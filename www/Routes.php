@@ -4,9 +4,13 @@ function call($Con, $Action){
 	$GLOBALS['Page'] = '../Views/'.$Con.'/'.$Action.'.php';
 	$ConC = new ConClass();
 	$ConC->{ $Action }();
-	require_once($GLOBALS['Layout']);
+	if(!$ConC->ApiCall){
+		require_once($GLOBALS['Layout']);
+	} else {
+		require_once($GLOBALS['Page']);
+	}
 }
-$Cons = array("Home" => ["Index", "Error", "About"], "Chat" => ["Home"], "Users" => ["Login","Register","Account","Logout","UserManagement","AccountAdmin"], "Chat" => ["Home", "MakeRoom", "Room"]);
+$Cons = array("Home" => ["Index", "Error", "About"], "Chat" => ["Home"], "Users" => ["Login","Register","Account","Logout","UserManagement","AccountAdmin"], "Chat" => ["Home", "MakeRoom", "Room", "GetRooms"]);
 if(array_key_exists($Con, $Cons)){
 	if(in_array($Action, $Cons[$Con])){
 		call($Con, $Action);

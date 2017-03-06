@@ -19,13 +19,16 @@ echo "<h2>".$GLOBALS['VD']['Room']['name']."</h2>";
 echo "<p>".$GLOBALS['VD']['Room']['info']."</p>";
 echo "<p>Owner: ".$GLOBALS['VD']['Room']['username']."</p>";
 echo "<p>Created: ".$GLOBALS['VD']['Room']['ts']."</p>";
+if(isset($_SESSION['Id']) && ($GLOBALS['Secrets']['RoomDelPower'] <= $_SESSION["Power"] || $GLOBALS['VD']['Room']['owner'] == $_SESSION['Id'])){
+echo "<button type=\"submit\" name=\"DeleteRoom\" value=\"{$GLOBALS['VD']['Room']['id']}\" onclick=\"ConfirmRoom();return false;\"/>Delete Room</button>";
+}
 echo "<table>";
 foreach($GLOBALS['VD']['Posts'] as $Post){
 	echo "<tr><td>{$Post["username"]}</td>";
 	echo "<td>{$Post["content"]}</td>";
 	echo "<td class = \"ts\">{$Post["ts"]}</td>";
 	if( isset($_SESSION['Id']) && ($GLOBALS['Secrets']['PostDelPower'] <= $_SESSION["Power"] || $GLOBALS['VD']['Room']['owner'] == $_SESSION['Id'] || $Post['owner'] == $_SESSION['Id'])){
-		echo "<td class = \"ts\"><button type=\"submit\" name=\"DeletePost\" value=\"{$Post["id"]}\" onclick=\"submit();\"/>Delete</button></td></tr>";
+		echo "<td class = \"ts\"><button type=\"submit\" name=\"DeletePost\" value=\"{$Post['id']}\" onclick=\"submit();\"/>Delete</button></td></tr>";
 	}
 }
 ?>
@@ -39,5 +42,12 @@ foreach($GLOBALS['VD']['Posts'] as $Post){
 	</tr>
 	</table>
 </form>
+<script>
+	function ConfirmRoom(){
+		if(confirm("Are you sure you want to delete this room?")){
+			document.getElementById('DeleteRoom').submit();
+		}
+	}
+</script>
 <script type="text/javascript" src="/Content/Plugins/tinymce/tinymce.min.js"></script>
 <script type="text/javascript" src="/Content/JS/TinyMceInti.js"></script>

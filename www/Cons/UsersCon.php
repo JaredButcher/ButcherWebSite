@@ -1,6 +1,6 @@
 <?php class ConClass{
 	private $Mod;
-	
+	public $ApiCall = false;
 	public function __construct(){
 		$GLOBALS['VD'] = array('Username' => "", 'EPassword' => "", 'Email' => "", 'Name' => "",'EUsername' => "", 'EEmail' => "", 'EName' => "", 'Cap' => "", 'ENewPassword' => "", 'Users' => array());
 		require_once("../Models/UsersMod.php");

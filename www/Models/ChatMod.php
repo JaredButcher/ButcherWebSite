@@ -8,8 +8,6 @@ class ModClass extends Connection{
 		$stmt->bindParam(":Info", $RoomDesc);
 		$stmt->execute();
 	}
-	public function DelRoom($Id){
-	}
 	public function MakePost($RoomId, $Content){
 		$Posts = $this->GetPosts($RoomId);
 		$Number = 0;
@@ -32,12 +30,18 @@ class ModClass extends Connection{
 		$stmt = $this->Conn->prepare($Sql);
 		$stmt->execute();
 	}
+	public function DelRoom($Id){
+		$stmt = $this->Conn->prepare("Delete From rooms Where id = '{$Id}';");
+		$stmt->execute();
+		$stmt = $this->Conn->prepare("Delete From posts Where id REGEXP '^{$Id}-.+$';");
+		$stmt->execute();
+	}
 	public function MakeReport($PostId, $RoomId){
 	}
 	public function DelReport($Id){
 	}
-	public function GetRooms(){
-		$stmt = $this->Conn->Prepare("Select rooms.*, users.username From rooms LEFT JOIN users ON rooms.owner = users.id Order By id;");
+	public function GetRooms($Count, $CountIndex){
+		$stmt = $this->Conn->Prepare("SELECT rooms.*, users.username FROM rooms LEFT JOIN users ON rooms.owner = users.id ORDER BY id LIMIT " . intval($Count) . " OFFSET " . intval($CountIndex) . ";");
 		$stmt->execute();
 		return $stmt->fetchAll();
 	}
@@ -51,6 +55,13 @@ class ModClass extends Connection{
 	}
 	public function GetPosts($RoomId){
 		$stmt = $this->Conn->prepare("SELECT posts.*, users.username FROM posts LEFT JOIN users ON posts.owner = users.id WHERE posts.id REGEXP '^{$RoomId}-.+$' ORDER BY posts.ts DESC;");
+		$stmt->execute();
+		return $stmt->fetchAll();
+	}
+	public function GetRoomsSearch($Search, $Count, $CountIndex){
+		$stmt = $this->Conn->Prepare("SELECT rooms.*, users.username FROM rooms LEFT JOIN users ON rooms.owner = users.id WHERE rooms.name LIKE :Search ORDER BY rooms.name LIMIT " . intval($Count) . " OFFSET " . intval($CountIndex) . ";");
+		$Search = '%'.$Search.'%';
+		$stmt->bindParam(':Search', $Search, PDO::PARAM_STR);
 		$stmt->execute();
 		return $stmt->fetchAll();
 	}
