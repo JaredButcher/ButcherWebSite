@@ -1,6 +1,8 @@
 <?php
+//Load secrets file with site settings and keys that I do want shared in source control
 require_once("../Secrets.php");
 session_start();
+//This will be used to hold things for the view
 $VD = array();
 $Title = "Butcher";
 $Layout = "../Views/Layout.php";

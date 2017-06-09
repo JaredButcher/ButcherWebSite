@@ -1,8 +1,11 @@
+This is so I can remember how the database is orginized
+
 CREATE TABLE rooms (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY, ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, owner INT, name TEXT, info TEXT);
 CREATE TABLE posts (id VARCHAR(32) PRIMARY KEY, ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, owner INT, content TEXT);
 CREATE UNIQUE INDEX index ON posts (id);
 CREATE TABLE reports (id VARCHAR(32) PRIMARY KEY, ts TIMESTAMP DEFAULT CURRENT_TIMESTAMP, owner INT, content TEXT, room INT, post INT);
 ALTER TABLE rooms ADD feature BOOL DEFAULT 0;
+CREATE TABLE users (id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
 SELECT posts.*, users.username FROM posts LEFT JOIN users ON posts.owner = users.id WHERE posts.id REGEXP '^{$RoomId}-.+$' ORDER BY posts.ts DESC;
 Select rooms.*, users.usrname From rooms LEFT JOIN users ON rooms.owner = users.id Order By id;

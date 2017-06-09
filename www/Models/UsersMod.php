@@ -1,5 +1,6 @@
 <?php
 require_once("../Models/Connection.php");
+//Interacts with database for user related things
 class ModClass extends Connection{
 	public function AddUser($Username, $Password, $Name, $Email){
 		$Salt = random_bytes(64);
@@ -13,6 +14,7 @@ class ModClass extends Connection{
 		$stmt->bindParam(':Email', $Email, PDO::PARAM_STR);
 		$stmt->execute();
 	}
+	//If successful then it will return true and write user's data to the session
 	public function Login($Username, $Password){
 		$User = $this->Qurry("Select * from users where username=?;",$Username);
 		if($User['id'] != null && hash("sha512", $Password . $User['salt']) == $User['hash']){
@@ -26,10 +28,12 @@ class ModClass extends Connection{
 			return False;
 		}
 	}
+	//Returns data on user
 	public function GetInfo($Id){
 		$User = $this->Qurry("Select * from users where id=?;",$Id);
 		return $User;
 	}
+	//Writes user's data to the session
 	public function ReloadLogin($Id){
 		$User = $this->GetInfo($Id);
 		$_SESSION['Username'] = $User['username'];
@@ -65,6 +69,7 @@ class ModClass extends Connection{
 		$stmt->bindParam(':Power', $Power, PDO::PARAM_INT);
 		$stmt->execute();
 	}
+	//Checks if user exsist by username
 	public function CheckUsername($Username){
 		$Id = $this->Qurry("Select id from users where username=?",$Username);
 		if($Id == null){
@@ -73,6 +78,7 @@ class ModClass extends Connection{
 			return true;
 		}
 	}
+	//Search for users
 	public function GetUsers($Filter){
 		if($Filter == ""){
 			$stmt = $this->Conn->prepare("Select id,username,name,email,power from users Order By id Limit 50;");
@@ -93,6 +99,7 @@ class ModClass extends Connection{
 		$stmt = $this->Conn->prepare($Sql);
 		$stmt->execute();
 	}
+	//Used to remember userse who check the remember me box. Will generate unrelated key, save it to database, and return it. 
 	public function AddRemember($Id){
 		$Key = random_bytes(64);
 		$Hash = hash("sha512", $Key);

@@ -26,6 +26,7 @@
                 <ul class="nav navbar-nav">
                     <li><a href="/Home/About/">About</a></li>
 					<li><a href="/Chat/Home/">Chat</a></li>
+					<li><a href="http://butch.sytes.net:4243">Node</a></li>
                 </ul>
 				
 				<ul class="nav navbar-nav navbar-right">

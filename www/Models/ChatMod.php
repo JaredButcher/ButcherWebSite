@@ -1,5 +1,6 @@
 <?php
 require_once("../Models/Connection.php");
+//Interacts with the database for chat related functions
 class ModClass extends Connection{
 	public function MakeRoom($RoomName, $RoomDesc){
 		$stmt = $this->Conn->prepare("INSERT INTO rooms (owner, name, info) VALUES (:Owner,:Name,:Info);");

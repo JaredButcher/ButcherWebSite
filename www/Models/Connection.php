@@ -1,4 +1,5 @@
 <?php class Connection{
+	//This class creates a connection to the database and provides a function for makeing basic qurries to database
 	protected $Conn;
 	
 	function __construct(){
